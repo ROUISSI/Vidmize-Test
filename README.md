@@ -28,9 +28,9 @@
 #####4- Migrations: Création des tables / schémas de la base de données
 
     a- php bin/console d:s:u --force
+#####5- Do not forget to import the database_vidmizer.sql existing under the backend project root
 
-
-#####7- Exécution du projet
+#####6- Exécution du projet
 
     symfony server:start
 
