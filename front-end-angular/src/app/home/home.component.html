@@ -1,0 +1,85 @@
+﻿<div class="card mt-4">
+    <h4 class="card-header py-3">Vidmizer</h4>
+    <hr>
+    <div class="card-body">
+        <h6>Liste des Videos</h6>
+        <div class="spinner-border spinner-border-sm" *ngIf="videos.length == 0"></div>
+        <div>
+            <form *ngIf="videos.length > 0" [formGroup]="searchForm">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Nom</th>
+                            <th scope="col">Taille</th>
+                            <th scope="col">Durée</th>
+                            <th scope="col">Qualité</th>
+                            <th scope="col">Choisir</th>
+                            <th scope="col">Nombre de vue</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let video of videos">
+                            <td>{{video.name}}</td>
+                            <td>{{video.size}}</td>
+                            <td>{{video.duration}}</td>
+                            <td>{{video.quality}}</td>
+                            <td><input type="checkbox" class="form-check-input" formControlName="{{video.id}}"
+                                    (change)="changeValueCheck(video.id)" /></td>
+                            <td><input type="number" class="form-control" formControlName="views_{{video.id}}"></td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td><button class="btn btn-primary" (click)="submitForm()">Créer un rapport</button></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </form>
+        </div>
+    </div>
+    <div class="card-body" *ngFor="let report of reports">
+        <hr>
+        <h6>Rapport {{report.name}} <button class="btn btn-info">Modifier <span class="glyphicon glyphicon-pencil"></span></button></h6>
+        <div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Dossier</th>
+                        <th scope="col">Nom de la vidéo</th>
+                        <th scope="col">Résolution</th>
+                        <th scope="col">Nombre d'impression(s)</th>
+                        <th scope="col">Poids unitaire - source (Go)</th>
+                        <th scope="col">Total poids - source (Go)</th>
+                        <th scope="col">Émission CO2 - source (kg)</th>
+                        <th scope="col">Poids unitaire - Encodée (Go)</th>
+                        <th scope="col">Total poids - Encodée (Go)</th>
+                        <th scope="col">Emission Co2 - Encodée (Kg)</th>
+                        <th scope="col">Gain carbone (gr)</th>
+                        <th scope="col">Réduction poids (%)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let reportVideos of report.report_videos">
+                        <td>{{joinFolders(reportVideos.video.folders)}}</td>
+                        <td>{{reportVideos.video.name}} ({{reportVideos.views}} vues)</td>
+                        <td>{{reportVideos.video.quality}}</td>
+                        <td>??</td>
+                        <td>{{reportVideos.video.size_go | number: '1.0-2'}}</td>
+                        <td>{{(reportVideos.video.size_go * reportVideos.views) | number: '1.0-2'}}</td>
+                        <td>{{(reportVideos.video.emission_co2 * reportVideos.views) | number: '1.0-2'}}</td>
+                        <td>{{reportVideos.video.video_encoder.size_go | number: '1.0-2'}}</td>
+                        <td>{{(reportVideos.video.video_encoder.size_go * reportVideos.views) | number: '1.0-2'}}</td>
+                        <td>{{(reportVideos.video.video_encoder.emission_co2 * reportVideos.views) | number: '1.0-2'}}</td>
+                        <td>{{reportVideos.video.gain_carbon | number: '1.0-2'}}</td>
+                        <td>{{reportVideos.video.reduc_size | number: '1.0-2'}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
